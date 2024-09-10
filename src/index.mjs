@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import session from "express-session";
 import route from "./routes/user.mjs";
 import passport from "passport";
+import MongoStore from "connect-mongo"; // session persisted state
+
 
 
 const app = express();
@@ -14,24 +16,26 @@ mongoose
 
 
 app.use(express.json());
- //app.use(express.urlencoded({ extended: true }));
-// app.use(
-//     session({
-//       secret: "ralph the dev",
-//       saveUninitialized: false,
-//       resave: false,
-//       cookie: {
-//         maxAge: 60000 * 60,
-//       },
-//       //this one is for persisted state
-//     //   store: MongoStore.create({
-//     //     client: mongoose.connection.getClient()
-//     //   })
-//     })
-//   );
+app.use(express.urlencoded({ extended: true }));
+app.use(
+    session({
+      secret: "ralph the dev",
+      saveUninitialized: false,
+      resave: false,
+      cookie: {
+        maxAge: 60000 * 60,
+        httpOnly: true, // Prevent client-side JavaScript access
+      secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+      },
+      //this one is for persisted state if server goes down it wil reconnect session
+      store: MongoStore.create({
+        client: mongoose.connection.getClient()
+      })
+    })
+  );
   
-//   app.use(passport.initialize());
-//   app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(route)
 
