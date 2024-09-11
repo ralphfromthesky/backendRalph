@@ -14,15 +14,27 @@ route.post(
   checkSchema(createUserValidationSchema),
   async (request, response) => {
     const result = validationResult(request);
-    if (!result.isEmpty()) return response.status(400).send(result.array());
+
+    // if (!result.isEmpty()) return response.status(400).send(result.array());
+    if (!result.isEmpty()) return response.status(200).json({
+      content: {
+        msg: "validatipn failed",
+        success: false,
+        error: result.array()
+      }
+    });
+
     const data = matchedData(request);
     data.password = hashPassword(data.password)
     const user = new Users(data);
     try {
       const savedUser = await user.save();
       return response
-        .status(201)
-        .send({ msg: "succecsfully register", savedUser });
+        .status(201).json({
+          msg: "Succesfully register!",
+          success: true
+        })
+        // .send({ msg: "succecsfully register", savedUser });
     } catch (error) {
       console.log(error);
       return response.sendStatus(400);
