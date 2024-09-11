@@ -21,7 +21,17 @@ export const createUserValidationSchema = {
 	// },
 	password: {
 		notEmpty: true,
+		errorMessage: "password cannot be empty",
+		isLength: {
+			options: {
+				min: 6,
+				max: 15
+			},
+			errorMessage: "password atleast 6 characters and max of 15 characters"
+		}
+
 	},
+
 };
 
 

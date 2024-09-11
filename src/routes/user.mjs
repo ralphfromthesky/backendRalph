@@ -33,8 +33,7 @@ route.post(
 
 route.post('/api/userLogin', passport.authenticate("local"), (request, response) => {
 
-    response.sendStatus(200);
-  
+response.status(200).send({msg: "Succesfully Login"})  
 })
 
 route.get("/api/userLogin/status", (request, response) => {
@@ -44,6 +43,15 @@ route.get("/api/userLogin/status", (request, response) => {
   console.log(request.sessionID)
   return request.user ? response.send(request.user) : response.sendStatus(401);
 });
+
+
+route.post('/api/userLogout', (request, response) => {
+  if(!request.user) return response.sendStatus(401);
+  request.logOut((err) => {
+    if(err) return response.sendStatus(400)
+    return response.send(200)
+  })
+})
 
 
 export default route;
