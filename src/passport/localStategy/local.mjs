@@ -11,6 +11,9 @@ export default passport.use(
     try {
 
       const findUser = await Users.findOne({ username });
+      //  if (!findUser) done(null, false, {msg: 'user not found', success: false})
+      //  if (!comparedPassword(password, findUser.password)) return done(null, false, { msg: 'Password is incorrect', success: false });
+
       if (!findUser) throw new Error("user not found!"); 
       if(!comparedPassword(password, findUser.password)) throw Error("Password is incorrect!");
 
