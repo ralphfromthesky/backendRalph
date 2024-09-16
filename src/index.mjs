@@ -28,7 +28,7 @@ app.use(
         httpOnly: true, // Prevent client-side JavaScript access
       secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
       },
-      //this one is for persisted state if server goes down it wil reconnect session
+      // this one is for persisted state if server goes down it wil reconnect session
       store: MongoStore.create({
         client: mongoose.connection.getClient()
       })
@@ -39,7 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors({
-  origin: 'http://localhost:5174', 
+  origin: 'http://localhost:5173', 
   credentials: true,
 }));
 
