@@ -84,10 +84,13 @@ route.post("/api/userInformation", async (request, response) => {
         { new: true, runValidators: true }
       );
 
-      if(!fullname || fullname.trim() === '') {
-        return response.send({msg: "full name is required", succes: "false"})
+      if (!fullname || fullname.trim() === "") {
+        return response.send({ msg: "full name is required", succes: "false" });
       }
-      if (!emailAddress || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(emailAddress)) {
+      if (
+        !emailAddress ||
+        !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(emailAddress)
+      ) {
         return response.status(400).json({ msg: "Invalid email address" });
       }
       if (!updateUser) {
@@ -105,6 +108,32 @@ route.post("/api/userInformation", async (request, response) => {
     }
   } else {
     response.sendStatus(401);
+  }
+});
+
+route.get("/api/userInformation", async (request, response) => {
+  if (request.user) {
+    try {
+      const user = await Users.findById(request.user._id).select(
+        "fullname age address contact emailAddress -_id"
+      );
+      if (!user) {
+        return response.status(401).send({ msg: "user not founc", success: false});
+      }
+      // return response.status(200).json(user);
+      return response.status(200).json({
+        fullname: user.fullname,
+        age: user.age,
+        address: user.address,
+        contact: user.contact,
+        emailAddress: user.emailAddress
+      });
+    } catch (error) {
+      console.log(error);
+      return response.status(500).json({ msg: "server error!", succes: false });
+    }
+  } else {
+    return response.sendStatus(401);
   }
 });
 

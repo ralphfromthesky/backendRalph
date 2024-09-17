@@ -13,8 +13,13 @@ const userSchema = new mongoose.Schema({
     fullname: {type: String},
     age: {type: Number},
     address: {type: String},
-    contanct: {type: String},
-    emailAddress: {type: String}
+    contact: {type: String},
+    emailAddress: {type: String},
+    product: {
+        frozen:{type:String},
+
+    }
+
 
 })
 
