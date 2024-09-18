@@ -47,13 +47,13 @@ route.post("/api/userLogin", (request, response, next) => {
       return next(err); // Passes errors to the error handler
     }
     if (!user) {
-      return response.status(401).send(info); // Sends the failure message
+      return response.status(200).send(info); // Sends the failure message
     }
     request.logIn(user, (err) => {
       if (err) {
         return next(err); // Error occurred during login
       }
-      return response.status(200).send({ msg: "Successfully logged in" });
+      return response.status(200).send({ msg: "Successfully logged in", success: true });
     });
   })(request, response, next);
 });
@@ -126,7 +126,8 @@ route.get("/api/userInformation", async (request, response) => {
         age: user.age,
         address: user.address,
         contact: user.contact,
-        emailAddress: user.emailAddress
+        emailAddress: user.emailAddress,
+        isLogin: true
       });
     } catch (error) {
       console.log(error);

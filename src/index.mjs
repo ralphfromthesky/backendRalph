@@ -26,7 +26,7 @@ app.use(
       cookie: {
         maxAge: 60000 * 60,
         httpOnly: true, // Prevent client-side JavaScript access
-      secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+      secure: false, // Use HTTPS in production
       },
       // this one is for persisted state if server goes down it wil reconnect session
       store: MongoStore.create({
