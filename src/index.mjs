@@ -7,7 +7,6 @@ import MongoStore from "connect-mongo"; // session persisted state
 import cors from 'cors';
 
 
-
 const app = express();
 
 mongoose
@@ -37,6 +36,13 @@ app.use(
   
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.get("/api/sample", (request, response) => {
+  return response.status(200).send({
+    msg: "good!",
+  });
+});
 
 app.use(cors({
   origin: 'http://localhost:5173', 

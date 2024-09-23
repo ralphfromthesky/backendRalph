@@ -5,8 +5,8 @@ import { comparedPassword } from "../../utils/helper.mjs";
 
 export default passport.use(
   new Strategy(async (username, password, done) => {
-    console.log(`username :${username}`);
-    console.log(`password :${password}`);
+    // console.log(`username :${username}`);
+    // console.log(`password :${password}`);
 
     try {
       const findUser = await Users.findOne({ username });

@@ -39,6 +39,7 @@ export const createUserValidationSchema = {
 // const { checkSchema, validationResult } = require('express-validator');
 
 // // Define validation schema using checkSchema
+
 // const userValidationSchema = checkSchema({
 //   name: {
 //     isLength: {
